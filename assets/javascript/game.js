@@ -1,6 +1,8 @@
 //variables for correct/incorrect answers
 let correctAnswers = 0;
 let incorrectAnswers = 0;
+let totalAnswers = 0;
+let doneWithQuiz = false;
 
 // setting the questions 
 const questions = {
@@ -21,15 +23,32 @@ const questions = {
         answer: "claire",
     },
     question3: {
-        question: "the answer is 1",
-        option1: "5",
-        option2: "3",
-        option3: "6",
-        option4: "1",
-        answer: "1",
+        question: "what is my dad's name",
+        option1: "bruce",
+        option2: "dan",
+        option3: "arthur",
+        option4: "jerry",
+        answer: "bruce",
     },
-
+    question4: {
+        question: "what is my mom's name",
+        option1: "alice",
+        option2: "barbara",
+        option3: "nancy",
+        option4: "carol",
+        answer: "carol",
+    },
+    question5: {
+        question: "what is my cat's name",
+        option1: "tiger",
+        option2: "nelson",
+        option3: "kevin",
+        option4: "kitty",
+        answer: "beaux",
+    }
 }
+
+const numberOfQuestions = Object.keys(questions).length;
 
 //setting up an array loop to go through the options
 const optionLoop = ["option1", "option2", "option3", "option4"];
@@ -38,10 +57,7 @@ console.log(questionLoop);
 
 //setting up basic display options
 const gameWindow = document.getElementById("game-window");
-const timeLeft = document.createElement("div");
-timeLeft.innerHTML = "time left"; //we'll add the timer here eventually
 const questionWindow = document.createElement("div");
-gameWindow.append(timeLeft);
 gameWindow.append(questionWindow);
 
 //function which sets up the question frame, and includes the logic for picking answers
@@ -68,52 +84,99 @@ function frameMaker(questionNumber) {
         const frameChoice = optionEl.textContent;
         // console.log(frameChoice);
         //adding event listener for user choice
+        if (!doneWithQuiz) {
+            optionEl.addEventListener("click", function () {
+                const userChoice = frameChoice;
+                console.log(userChoice);
+                //checking if user picked correct answer
+                if (userChoice === frameAnswer) {
+                    correctAnswers++;
+                    totalAnswers++;
+                    console.log("you guessed correctly");
+                    console.log("correct answers:", correctAnswers);
+                    console.log("total answers", totalAnswers);
+                    if (totalAnswers === numberOfQuestions) {
+                        console.log("done with game");
+                        endGame();
+                    }
+                    else {
+                        nextFrame();
+                    }
+                }
+                else {
+                    incorrectAnswers++;
+                    totalAnswers++;
+                    console.log("you guessed incorrectly");
+                    console.log("incorrect answers:", incorrectAnswers);
+                    console.log("total answers", totalAnswers);
+                    if (totalAnswers === numberOfQuestions) {
+                        console.log("done with game");
+                        endGame();
+                    }
+                    else {
+                        nextFrame();
+                    }
+                }
 
-        optionEl.addEventListener("click", function () {
-            const userChoice = frameChoice;
-            console.log(userChoice);
-            //checking if user picked correct answer
-            if (userChoice === frameAnswer) {
-                correctAnswers++;
-                console.log("you guessed correctly");
-                console.log("correct answers:", correctAnswers);
-            }
-            else {
-                incorrectAnswers++;
-                console.log("you guessed incorrectly");
-                console.log("incorrect answers:", incorrectAnswers);
-            }
+            })
 
-        })
+        }
     })
 
 }
 
 
 
+//function for going to next question
+let i = 0
+let currentQuestion = questionLoop[i];
 
-const button = document.createElement("button");
-button.innerHTML = "next question";
-
-button.addEventListener("click", function () {
-    nextFrame();
-})
-
-gameWindow.append(button);
-
-
-let currentQuestion = questionLoop[0];
-let currentQuestionIndex = questionLoop.indexOf(currentQuestion);
-
-console.log("currentQuestion",currentQuestion);
-console.log("currentQuestionIndex",currentQuestionIndex);
-console.log("currentQuestion+1",questionLoop[currentQuestionIndex + 1]);
-
-frameMaker(questions[currentQuestion]);
-
-
-function nextFrame () {
+function restartGame() {
     questionWindow.innerHTML = "";
-    frameMaker(questionLoop[currentQuestionIndex + 1]);
+    i = 0;
+    correctAnswers = 0;
+    incorrectAnswers = 0;
+    totalAnswers = 0;
+    frameMaker(questions[currentQuestion]);
 }
 
+function nextFrame() {
+    questionWindow.innerHTML = "";
+    i++;
+    currentQuestion = questionLoop[i];
+    console.log("newQuestion:", currentQuestion)
+    frameMaker(questions[currentQuestion]);
+}
+
+function welcome() {
+    const startButton = document.createElement("button");
+    startButton.innerHTML = "start";
+    questionWindow.append(startButton);
+
+    startButton.addEventListener("click", function () {
+        restartGame()
+    })
+}
+
+function endGame() {
+    questionWindow.innerHTML = "";
+    const questionsCorrectText = document.createElement("div");
+    const questionsIncorrectText = document.createElement("div");
+    questionsCorrectText.innerHTML = correctAnswers;
+    questionsIncorrectText.innerHTML = incorrectAnswers;
+
+    questionWindow.append("Questions Correct: ", questionsCorrectText);
+    questionWindow.append("Questions Incorrect: ", questionsIncorrectText);
+
+    const restartButton = document.createElement("button");
+    restartButton.innerHTML = "try again";
+    questionWindow.append(restartButton);
+
+    restartButton.addEventListener("click", function () {
+        questionWindow.innerHTML = "";
+        restartGame();
+    })
+
+}
+
+welcome();
