@@ -4,10 +4,15 @@ let incorrectAnswers = 0;
 let totalAnswers = 0;
 let doneWithQuiz = false;
 
-//setting the timer
+//setting the contdown timer
 const maxTime = 31;
 let intervalTimer = maxTime;
 let intervalID;
+
+//setting the next frame counter
+const nextMaxTime = 4;
+let nextIntervalTimer = nextMaxTime;
+let nextIntervalID;
 
 
 // setting the questions 
@@ -112,18 +117,89 @@ const questions = {
     },
 }
 
+// setting the total number of questions to later check to see if you've answered all the questions
 const numberOfQuestions = Object.keys(questions).length;
 
-//setting up an array loop to go through the options
+//setting up an array loop to go through the options and questions
 const optionLoop = ["option1", "option2", "option3", "option4"];
 const questionLoop = Object.keys(questions);
 console.log(questionLoop);
 
-//setting up basic display options
+//setting up basic display divs
 const gameWindow = document.getElementById("game-window");
 const questionWindow = document.createElement("div");
 questionWindow.classList.add("game-frame");
 gameWindow.append(questionWindow);
+
+//put functions here------------------------------------
+
+//sets the question index to 0 for going to next question
+let i = 0
+//allows us to go through the question loop array
+let currentQuestion = questionLoop[i];
+
+//resets all the tracking variables and the question loop index and runs the frameMaker function
+function restartGame() {
+    questionWindow.innerHTML = "";
+    i = 0;
+    intervalTimer = maxTime;
+    nextIntervalTimer = nextMaxTime;
+    currentQuestion = questionLoop[i];
+    correctAnswers = 0;
+    incorrectAnswers = 0;
+    totalAnswers = 0;
+    frameMaker(questions[currentQuestion]);
+}
+
+//clears the timer varibles, adds 1 to the question loop index, and runs the frameMaker function with the next question in the question loop array as its parameter
+function nextFrame() {
+    clearInterval(intervalID);
+    intervalTimer = maxTime;
+    nextIntervalTimer = nextMaxTime;
+    clearInterval(nextIntervalID);
+    questionWindow.innerHTML = "";
+    i++;
+    currentQuestion = questionLoop[i];
+    console.log("newQuestion:", currentQuestion)
+    frameMaker(questions[currentQuestion]);
+}
+
+//sets the welcome screen
+function welcome() {
+    const startButton = document.createElement("button");
+    startButton.innerHTML = "Start";
+    questionWindow.append(startButton);
+
+    startButton.addEventListener("click", function () {
+        restartGame()
+    })
+}
+
+//clears all timer variables, and sets the end screen
+function endGame() {
+    questionWindow.innerHTML = "";
+    clearInterval(intervalID);
+    clearInterval(nextIntervalID);
+    const questionsCorrectText = document.createElement("div");
+    questionsCorrectText.classList.add("results")
+    const questionsIncorrectText = document.createElement("div");
+    questionsIncorrectText.classList.add("results")
+
+    questionsCorrectText.innerHTML = "Questions Correct: " + correctAnswers;
+    questionsIncorrectText.innerHTML = "Questions Incorrect: " + incorrectAnswers;
+    timeLeftText.innerHTML = "";
+    questionWindow.append(questionsCorrectText);
+    questionWindow.append(questionsIncorrectText);
+
+    const restartButton = document.createElement("button");
+    restartButton.innerHTML = "Play Again";
+    questionWindow.append(restartButton);
+
+    restartButton.addEventListener("click", function () {
+        restartGame();
+    })
+
+}
 
 //function which sets up the question frame, and includes the logic for picking answers
 //this is the game
@@ -150,13 +226,13 @@ function frameMaker(questionNumber) {
     //setting up the logic for selecting answers
     document.querySelectorAll(".option").forEach(function (optionEl) {
         // setting a variable that will equal the text content of the user's choice
-        const frameChoice = optionEl.textContent;
+        const frameChoice = optionEl.innerHTML;
         // console.log(frameChoice);
         //adding event listener for user choice
         if (!doneWithQuiz) {
             optionEl.addEventListener("click", function () {
                 const userChoice = frameChoice;
-                console.log(userChoice);
+                console.log("$$$$$", userChoice, frameAnswer, userChoice === frameAnswer);
                 //checking if user picked correct answer
                 if (userChoice === frameAnswer) {
                     correctAnswers++;
@@ -171,7 +247,7 @@ function frameMaker(questionNumber) {
                         endGame();
                     }
                     else {
-                        nextFrame();
+                        nextCountdownTimer();
                     }
                 }
                 //checking if user picked incorrect answer
@@ -188,7 +264,7 @@ function frameMaker(questionNumber) {
                         endGame();
                     }
                     else {
-                        nextFrame();
+                        nextCountdownTimer();
                     }
                 }
 
@@ -196,10 +272,12 @@ function frameMaker(questionNumber) {
 
         }
     })
+    //setting up the countdown timer
     function countdownTimer() {
         clearInterval(intervalID);
         intervalID = setInterval(decrement, 1000);
     }
+
 
     function decrement() {
         intervalTimer--;
@@ -211,78 +289,27 @@ function frameMaker(questionNumber) {
             answerText.innerHTML = questionNumber.noAnswer + " " + questionNumber.answerFunFact;
             questionWindow.append(answerText);
             incorrectAnswers++
-            nextFrame()
+            totalAnswers++
+            // nextFrame()
+            nextCountdownTimer();
         }
 
     }
-}
+    function nextCountdownTimer() {
+        clearInterval(intervalID);
+        clearInterval(nextIntervalID);
+        nextIntervalID = setInterval(nextDecrement, 1000)
+    }
 
-//functions for controlling timer
+    function nextDecrement() {
+        nextIntervalTimer--;
 
-//function for going to next question
-let i = 0
-let currentQuestion = questionLoop[i];
-
-function restartGame() {
-    questionWindow.innerHTML = "";
-    i = 0;
-    currentQuestion = questionLoop[i];
-    correctAnswers = 0;
-    incorrectAnswers = 0;
-    totalAnswers = 0;
-    frameMaker(questions[currentQuestion]);
-}
-
-function nextFrame() {
-    clearInterval(intervalID);
-    const nextButton = document.createElement("button");
-    nextButton.innerHTML = "Next";
-    questionWindow.append(nextButton);
-
-    nextButton.addEventListener("click", function () {
-        intervalTimer = maxTime;
-        questionWindow.innerHTML = "";
-        i++;
-        currentQuestion = questionLoop[i];
-        console.log("newQuestion:", currentQuestion)
-        frameMaker(questions[currentQuestion]);
-
-    })
-
-}
-
-function welcome() {
-    const startButton = document.createElement("button");
-    startButton.innerHTML = "Start";
-    questionWindow.append(startButton);
-
-    startButton.addEventListener("click", function () {
-        restartGame()
-    })
-}
-
-function endGame() {
-    questionWindow.innerHTML = "";
-    clearInterval(intervalID);
-    const questionsCorrectText = document.createElement("div");
-    questionsCorrectText.classList.add("results")
-    const questionsIncorrectText = document.createElement("div");
-    questionsIncorrectText.classList.add("results")
-
-    questionsCorrectText.innerHTML = "Questions Correct: " + correctAnswers;
-    questionsIncorrectText.innerHTML = "Questions Incorrect: " + incorrectAnswers;
-    timeLeftText.innerHTML = "";
-    questionWindow.append(questionsCorrectText);
-    questionWindow.append(questionsIncorrectText);
-
-    const restartButton = document.createElement("button");
-    restartButton.innerHTML = "Play Again";
-    questionWindow.append(restartButton);
-
-    restartButton.addEventListener("click", function () {
-        restartGame();
-    })
-
+        if (nextIntervalTimer < 1 && totalAnswers !== numberOfQuestions) {
+            nextFrame();
+        } else if (nextIntervalTimer < 1 && totalAnswers === numberOfQuestions) {
+            endGame();
+        }
+    }
 }
 
 welcome();
