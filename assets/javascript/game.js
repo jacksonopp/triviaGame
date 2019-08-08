@@ -4,48 +4,112 @@ let incorrectAnswers = 0;
 let totalAnswers = 0;
 let doneWithQuiz = false;
 
+//setting the timer
+const maxTime = 11;
+let intervalTimer = maxTime;
+let intervalID;
+
+
 // setting the questions 
 const questions = {
     question1: {
-        question: "what is my name",
-        option1: "jackson",
-        option2: "alan",
-        option3: "bill",
-        option4: "mark",
-        answer: "jackson",
+        question: "Where did the Coen Brothers grow up?",
+        option1: "Newton, MA",
+        option2: "Saint Louis Park, MN",
+        option3: "Northbrook, IL",
+        option4: "Los Angeles, CA",
+        answer: "Saint Louis Park, MN",
+        answerCorrect: "Correct!",
+        answerIncorrect: "Incorrect!",
+        noAnswer: "You didn't choose an answer.",
+        answerFunFact: "The Coen Brothers grew up in Saint Louis Park, MN."
     },
     question2: {
-        question: "what is my sister's name",
-        option1: "jackson",
-        option2: "claire",
-        option3: "bill",
-        option4: "mark",
-        answer: "claire",
+        question: "What superhero film did the Coen Brothers turn down to direct?",
+        option1: "Superman II (1980)",
+        option2: "Captain America (1990)",
+        option3: "The Incredible Hulk Returns (1988)",
+        option4: "Batman (1989)",
+        answer: "Batman (1989)",
+        answerCorrect: "Correct!",
+        answerIncorrect: "Incorrect!",
+        noAnswer: "You didn't choose an answer.",
+        answerFunFact: "The Coen brothers turned down Batman (1989) to make Miller's Crossing, a box office failure, but critical darling."
     },
     question3: {
-        question: "what is my dad's name",
-        option1: "bruce",
-        option2: "dan",
-        option3: "arthur",
-        option4: "jerry",
-        answer: "bruce",
+        question: "What was O Brother, Where Art Thou based on?",
+        option1: "Homer's The Odyssey",
+        option2: "L. Frank Baum's The Wonderful Wizard of Oz",
+        option3: "Joseph Conrad's Heart of Darkness",
+        option4: "Dante Alighieri's The Divine Comedy",
+        answer: "L. Frank Baum's The Wonderful Wizard of Oz",
+        answerCorrect: "Correct!",
+        answerIncorrect: "Incorrect!",
+        noAnswer: "You didn't choose an answer.",
+        answerFunFact: "The Coen Brothers originally based their movie off of The Wizard of Oz, but later decided to say it was based off the Odyssey because it sounded better."
     },
     question4: {
-        question: "what is my mom's name",
-        option1: "alice",
-        option2: "barbara",
-        option3: "nancy",
-        option4: "carol",
-        answer: "carol",
+        question: "What Minnesota celebrity shows up in the credits of Fargo?",
+        option1: "Prince",
+        option2: "Bob Dylan",
+        option3: "Jesse Ventura",
+        option4: "Garrison Keillor",
+        answer: "Prince",
+        answerCorrect: "Correct!",
+        answerIncorrect: "Incorrect!",
+        noAnswer: "You didn't choose an answer.",
+        answerFunFact: "Prince is credited as 'Victim in Field' in the credits, and wanted a small part in the film, but the role is actually played by J. Todd Anderson, one of the Coen Brother's long-time storyboard artists."
     },
     question5: {
-        question: "what is my cat's name",
-        option1: "tiger",
-        option2: "nelson",
-        option3: "kevin",
-        option4: "kitty",
-        answer: "beaux",
-    }
+        question: "Who is the Coen Brothers' usual cinematographer?",
+        option1: "Emmanuel Lubezki",
+        option2: "Roger Deakins",
+        option3: "Robert Elswit",
+        option4: "Wally Pfister",
+        answer: "Roger Deakins",
+        answerCorrect: "Correct!",
+        answerIncorrect: "Incorrect!",
+        noAnswer: "You didn't choose an answer!",
+        answerFunFact: "Roger Deakins is the Coen Brothers' long-time cinematographer. He has shot 12 of their films."
+
+    },
+    question6: {
+        question: "Who plays the titular role in 'The Big Lebowski'?",
+        option1: "Jeff Bridges",
+        option2: "John Goodman",
+        option3: "David Huddleston",
+        option4: "Steve Buscemi",
+        answer: "David Huddleston",
+        answerCorrect: "Correct!",
+        answerIncorrect: "Incorrect!",
+        noAnswer: "You didn't choose an answer!",
+        answerFunFact: "Jeff Bridges plays 'The Dude', who is mistaken for the 'Big' Lebowski, played by Huddleston"
+
+    },
+    question6: {
+        question: "How many Academy Awards have the Coen Brothers been nominated for?",
+        option1: "14",
+        option2: "20",
+        option3: "7",
+        option4: "11",
+        answer: "14",
+        answerCorrect: "Correct!",
+        answerIncorrect: "Incorrect!",
+        noAnswer: "You didn't choose an answer!",
+        answerFunFact: "The Coen Brothers have been nominated 14 times. They have won four, including two for Best Screenplay, one for Best Director, and one for Best Picture."
+    },
+    question7: {
+        question: "Which film won the Academy Award for Best Picture?",
+        option1: "Fargo",
+        option2: "Barton Fink",
+        option3: "The Big Lebowski",
+        option4: "No Country for Old Men",
+        answer: "No Country for Old Men",
+        answerCorrect: "Correct!",
+        answerIncorrect: "Incorrect!",
+        noAnswer: "You didn't choose an answer!",
+        answerFunFact: "The Coen Brothers won the Oscar for No Country for Old Men."
+    },
 }
 
 const numberOfQuestions = Object.keys(questions).length;
@@ -62,11 +126,15 @@ questionWindow.classList.add("game-frame");
 gameWindow.append(questionWindow);
 
 //function which sets up the question frame, and includes the logic for picking answers
+//this is the game
 function frameMaker(questionNumber) {
+    countdownTimer();
     //setting up the answer to the question
     const frameAnswer = questionNumber.answer
-    //writing the question
+    //writing the question and setting up div for answer
     const frameQuestion = document.createElement("h3");
+    const answerText = document.createElement("div");
+    answerText.classList.add("answer");
     //check to see if answer has been chosen
 
     frameQuestion.innerHTML = questionNumber.question
@@ -93,6 +161,8 @@ function frameMaker(questionNumber) {
                 if (userChoice === frameAnswer) {
                     correctAnswers++;
                     totalAnswers++;
+                    answerText.innerHTML = questionNumber.answerCorrect + " " + questionNumber.answerFunFact;
+                    questionWindow.append(answerText);
                     console.log("you guessed correctly");
                     console.log("correct answers:", correctAnswers);
                     console.log("total answers", totalAnswers);
@@ -104,9 +174,12 @@ function frameMaker(questionNumber) {
                         nextFrame();
                     }
                 }
+                //checking if user picked incorrect answer
                 else {
                     incorrectAnswers++;
                     totalAnswers++;
+                    answerText.innerHTML = questionNumber.answerIncorrect + " " + questionNumber.answerFunFact;
+                    questionWindow.append(answerText);
                     console.log("you guessed incorrectly");
                     console.log("incorrect answers:", incorrectAnswers);
                     console.log("total answers", totalAnswers);
@@ -123,10 +196,28 @@ function frameMaker(questionNumber) {
 
         }
     })
+    function countdownTimer() {
+        clearInterval(intervalID);
+        intervalID = setInterval(decrement, 1000);
+    }
 
+    function decrement() {
+        intervalTimer--;
+        timeLeftText = document.getElementById("timer");
+        timeLeftText.innerHTML = "time left: " + intervalTimer;
+
+        if (intervalTimer < 1) {
+            // clearInterval(intervalID);
+            answerText.innerHTML = questionNumber.noAnswer + " " + questionNumber.answerFunFact;
+            questionWindow.append(answerText);
+            incorrectAnswers++
+            nextFrame()
+        }
+
+    }
 }
 
-
+//functions for controlling timer
 
 //function for going to next question
 let i = 0
@@ -143,11 +234,22 @@ function restartGame() {
 }
 
 function nextFrame() {
-    questionWindow.innerHTML = "";
-    i++;
-    currentQuestion = questionLoop[i];
-    console.log("newQuestion:", currentQuestion)
-    frameMaker(questions[currentQuestion]);
+    clearInterval(intervalID);
+    isNextClicked = false;
+    const nextButton = document.createElement("button");
+    nextButton.innerHTML = "next";
+    questionWindow.append(nextButton);
+
+    nextButton.addEventListener("click", function () {
+        intervalTimer = maxTime;
+        questionWindow.innerHTML = "";
+        i++;
+        currentQuestion = questionLoop[i];
+        console.log("newQuestion:", currentQuestion)
+        frameMaker(questions[currentQuestion]);
+
+    })
+
 }
 
 function welcome() {
@@ -162,11 +264,12 @@ function welcome() {
 
 function endGame() {
     questionWindow.innerHTML = "";
+    clearInterval(intervalID);
     const questionsCorrectText = document.createElement("div");
     const questionsIncorrectText = document.createElement("div");
     questionsCorrectText.innerHTML = correctAnswers;
     questionsIncorrectText.innerHTML = incorrectAnswers;
-
+    timeLeftText.innerHTML = "";
     questionWindow.append("Questions Correct: ", questionsCorrectText);
     questionWindow.append("Questions Incorrect: ", questionsIncorrectText);
 
