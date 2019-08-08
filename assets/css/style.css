@@ -1,71 +1,200 @@
 @import "./reset.css";
-@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Raleway&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Abril+Fatface|Raleway&display=swap");
+
+.clearfix {
+   content: "";
+   display: table;
+   clear: both;
+}
 
 body {
-    background-image: url("../images/pineapplecut.png");
-    color: #111111;
-    font-family: 'Raleway', sans-serif;
+   background-image: url("../images/pineapplecut.png");
+   color: #111111;
+   font-family: "Raleway", sans-serif;
 }
 
 em {
-    font-style: italic;
+   font-style: italic;
 }
 
 .container {
-    width: 80%;
-    margin: 0 auto;
-    text-align: center;
+   width: 80%;
+   margin: 0 auto;
+   text-align: center;
 }
-
+.game-window {
+   width: 100%;
+}
 .title {
-    font-size: 64px;
-    font-weight: bold;
-    margin: 20px 0;
-    font-family: 'Abril Fatface', cursive;
+   font-size: 64px;
+   font-weight: bold;
+   margin: 20px 0;
+   font-family: "Abril Fatface", cursive;
 }
 
 .game-frame h3 {
-    font-size: 32px;
-    margin: 20px 0;
+   font-size: 32px;
+   margin: 20px 0;
 }
 
 .game-frame p {
-    width: 600px;
-    margin: 10px auto;
-    padding: 20px;
-    background: #3D9970;
-    font-size: 24px;
-    border-radius: 10px;
+   width: 600px;
+   margin: 10px auto;
+   padding: 20px;
+   background: #3d9970;
+   font-size: 24px;
+   border-radius: 10px;
 }
 
 .game-frame p:hover {
-    background: #39CCCC;
-    cursor: default;
+   background: #39cccc;
+   cursor: default;
 }
 
 .clock {
-    height: 24px;
-    font-size: 24px;
-    padding: 20px 0;
-    margin: 30px 0;
+   height: 24px;
+   font-size: 24px;
+   padding: 20px 0;
+   margin: 30px 0;
 }
 
 .answer {
-    text-align: left;
-    margin: 30px auto 20;
-    width: 600px;
-    font-size: 24px;
+   text-align: left;
+   margin: 30px auto 20;
+   width: 80%;
+   font-size: 24px;
 }
 
 .results {
-    font-size: 24px;
-    margin: 30px auto;
+   font-size: 24px;
+   margin: 30px auto;
 }
 
 button {
-    width: 200px;
-    height: 50px;
-    font-size: 20px;
-    background: palevioletred;
-    border-radius: 10px;
+   width: 200px;
+   height: 50px;
+   font-size: 20px;
+   background: #FF4136;
+   border-radius: 10px;
+}
+
+@media (max-width: 760px) {
+   .game-frame p {
+      width: 80%;
+      font-size: 18px;
+   }
+   h1 {
+      font-size: 36px;
+   }
+   .clock {
+      margin: 15px 0;
+      padding: 5px 0;
+   }
+   .answer {
+      font-size: 18px;
+   }
+}
+
+
+@media (max-height: 770px) {
+   .answer {
+      position: absolute;
+      top: 300px;
+      left: 50%;
+      margin-left: -155px;
+      font-size: 20px;
+      width: 310px;
+      background: #FFDC00;
+      /* height: 200; */
+      border-radius: 10px;
+      padding: 75px 5;
+      text-align: center;
+   }
+}
+
+@media (max-height: 700px) {
+   h1 {
+      font-size: 21px;
+   }
+   .clock {
+      font-size: 19px;
+   }
+   .game-frame h3 {
+      font-size: 19px;
+   }
+   .answer {
+      position: absolute;
+      top: 190px;
+      /* margin-top: -95px; */
+      left: 50%;
+      margin-left: -155px;
+      font-size: 20px;
+      width: 310px;
+      background: #FFDC00;
+      /* height: 190px; */
+      border-radius: 10px;
+      padding: 75px 5;
+      text-align: center;
+   }
+}
+
+@media (max-height: 480px) {
+   .game-frame p {
+      width: 40%;
+      margin: 10px 12px;
+      float: left;
+      font-size: 16px;
+      height: 16px;
+      padding: 14px 10px 26px 10px;
+   }
+      .answer {
+      position: absolute;
+      top: 179px;
+      /* margin-top: -95px; */
+      left: 50%;
+      margin-left: -155px;
+      font-size: 20px;
+      width: 310px;
+      background: #FFDC00;
+      /* height: 190px; */
+      border-radius: 10px;
+      padding: 37px 10px;
+      text-align: center;
+   }
+
+}
+@media (max-height: 400px) {
+   h1 {
+      font-size: 26px;
+   }
+   .clock {
+      margin: 0 auto;
+   }
+   .game-frame h3 {
+      font-size: 20px;
+      margin: 5px 0;
+   }
+
+   .game-frame p {
+      width: 40%;
+      margin: 10px 12px;
+      float: left;
+      font-size: 16px;
+      height: 16px;
+      padding: 14px 10px 26px 10px;
+   }
+      .answer {
+      position: absolute;
+      top: 145px;
+      /* margin-top: -95px; */
+      left: 50%;
+      margin-left: -155px;
+      font-size: 20px;
+      width: 310px;
+      background: #FFDC00;
+      /* height: 190px; */
+      border-radius: 10px;
+      padding: 37px 10px;
+      text-align: center;
+   }
 }
