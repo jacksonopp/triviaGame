@@ -134,6 +134,7 @@ let currentQuestion = questionLoop[i];
 function restartGame() {
     questionWindow.innerHTML = "";
     i = 0;
+    currentQuestion = questionLoop[i];
     correctAnswers = 0;
     incorrectAnswers = 0;
     totalAnswers = 0;
@@ -173,7 +174,6 @@ function endGame() {
     questionWindow.append(restartButton);
 
     restartButton.addEventListener("click", function () {
-        questionWindow.innerHTML = "";
         restartGame();
     })
 
