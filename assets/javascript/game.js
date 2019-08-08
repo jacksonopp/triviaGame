@@ -58,6 +58,7 @@ console.log(questionLoop);
 //setting up basic display options
 const gameWindow = document.getElementById("game-window");
 const questionWindow = document.createElement("div");
+questionWindow.classList.add("game-frame");
 gameWindow.append(questionWindow);
 
 //function which sets up the question frame, and includes the logic for picking answers

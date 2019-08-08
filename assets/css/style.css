@@ -1,0 +1,27 @@
+@import "./reset.css";
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.title {
+    font-size: 64px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.game-frame h3 {
+    font-size: 32px;
+    margin: 20px 0;
+}
+
+.game-frame p {
+    margin: 10px 0;
+}
+
+.game-frame p:hover {
+    background: aliceblue;
+    cursor: default;
+}
