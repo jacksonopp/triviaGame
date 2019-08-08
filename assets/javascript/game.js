@@ -5,7 +5,7 @@ let totalAnswers = 0;
 let doneWithQuiz = false;
 
 //setting the timer
-const maxTime = 11;
+const maxTime = 31;
 let intervalTimer = maxTime;
 let intervalID;
 
@@ -38,11 +38,11 @@ const questions = {
     },
     question3: {
         question: "What was O Brother, Where Art Thou based on?",
-        option1: "Homer's The Odyssey",
-        option2: "L. Frank Baum's The Wonderful Wizard of Oz",
-        option3: "Joseph Conrad's Heart of Darkness",
-        option4: "Dante Alighieri's The Divine Comedy",
-        answer: "L. Frank Baum's The Wonderful Wizard of Oz",
+        option1: "Homer's <em>The Odyssey</em>",
+        option2: "L. Frank Baum's <em>The Wonderful Wizard of Oz</em>",
+        option3: "Joseph Conrad's <em>Heart of Darkness</em>",
+        option4: "Dante Alighieri's <em>The Divine Comedy</em>",
+        answer: "L. Frank Baum's <em>The Wonderful Wizard of Oz</em>",
         answerCorrect: "Correct!",
         answerIncorrect: "Incorrect!",
         noAnswer: "You didn't choose an answer.",
@@ -204,7 +204,7 @@ function frameMaker(questionNumber) {
     function decrement() {
         intervalTimer--;
         timeLeftText = document.getElementById("timer");
-        timeLeftText.innerHTML = "time left: " + intervalTimer;
+        timeLeftText.innerHTML = "Time Left: " + intervalTimer;
 
         if (intervalTimer < 1) {
             // clearInterval(intervalID);
@@ -235,9 +235,8 @@ function restartGame() {
 
 function nextFrame() {
     clearInterval(intervalID);
-    isNextClicked = false;
     const nextButton = document.createElement("button");
-    nextButton.innerHTML = "next";
+    nextButton.innerHTML = "Next";
     questionWindow.append(nextButton);
 
     nextButton.addEventListener("click", function () {
@@ -254,7 +253,7 @@ function nextFrame() {
 
 function welcome() {
     const startButton = document.createElement("button");
-    startButton.innerHTML = "start";
+    startButton.innerHTML = "Start";
     questionWindow.append(startButton);
 
     startButton.addEventListener("click", function () {
@@ -266,15 +265,18 @@ function endGame() {
     questionWindow.innerHTML = "";
     clearInterval(intervalID);
     const questionsCorrectText = document.createElement("div");
+    questionsCorrectText.classList.add("results")
     const questionsIncorrectText = document.createElement("div");
-    questionsCorrectText.innerHTML = correctAnswers;
-    questionsIncorrectText.innerHTML = incorrectAnswers;
+    questionsIncorrectText.classList.add("results")
+
+    questionsCorrectText.innerHTML = "Questions Correct: " + correctAnswers;
+    questionsIncorrectText.innerHTML = "Questions Incorrect: " + incorrectAnswers;
     timeLeftText.innerHTML = "";
-    questionWindow.append("Questions Correct: ", questionsCorrectText);
-    questionWindow.append("Questions Incorrect: ", questionsIncorrectText);
+    questionWindow.append(questionsCorrectText);
+    questionWindow.append(questionsIncorrectText);
 
     const restartButton = document.createElement("button");
-    restartButton.innerHTML = "try again";
+    restartButton.innerHTML = "Play Again";
     questionWindow.append(restartButton);
 
     restartButton.addEventListener("click", function () {
