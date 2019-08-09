@@ -115,6 +115,45 @@ const questions = {
         noAnswer: "You didn't choose an answer!",
         answerFunFact: "The Coen Brothers won the Oscar for No Country for Old Men."
     },
+    question8: {
+        question: "Who edits their films?",
+        option1: "Walter Murch",
+        option2: "Roderick Jaynes",
+        option3: "Michael Kahn",
+        option4: "Alan Edward Ball",
+        answer: "Roderick Jaynes",
+        answerCorrect: "Correct!",
+        answerIncorrect: "Incorrect!",
+        noAnswer: "You didn't choose an answer!",
+        answerFunFact: "Joel and Ethan Coen actually edit their own films. Roderick Jaynes is the pseudonym that they use in order to get around union requirements for receiving awards."
+    },
+    question9: {
+        question: "Which famous actress is Joel Coen's wife?",
+        option1: "Francis McDormand",
+        option2: "Sissy Spacek",
+        option3: "Kathy Bates",
+        option4: "Alan Edward Ball",
+        answer: "Francis McDormand",
+        answerCorrect: "Correct!",
+        answerIncorrect: "Incorrect!",
+        noAnswer: "You didn't choose an answer!",
+        answerFunFact: "Joel and Francis met on the set of the brothers' debut film, <em>Blood Simple</em>. She has since appeared in several of their films, including Fargo, for which she won an Oscar."
+    },
+    question10: {
+        question: "How many times does The Dude say 'man' in The Big Lebowski?",
+        option1: "329",
+        option2: "133",
+        option3: "212",
+        option4: "147",
+        answer: "147",
+        answerCorrect: "Correct!",
+        answerIncorrect: "Incorrect!",
+        noAnswer: "You didn't choose an answer!",
+        answerFunFact: "The dude says 'man' 147 times. Thats nearly once every 45 seconds!"
+    },
+
+
+
 }
 
 // setting the total number of questions to later check to see if you've answered all the questions
