@@ -10,7 +10,7 @@ let intervalTimer = maxTime;
 let intervalID;
 
 //setting the next frame counter
-const nextMaxTime = 3;
+const nextMaxTime = 5;
 let nextIntervalTimer = nextMaxTime;
 let nextIntervalID;
 
